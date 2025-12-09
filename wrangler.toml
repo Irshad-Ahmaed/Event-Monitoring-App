@@ -1,0 +1,4 @@
+name = "<YOUR_PROJECT_NAME>"
+main = "src/server/index.ts"
+compatibility_date = "2025-12-10"
+compatibility_flags = ["nodejs_compat"]
