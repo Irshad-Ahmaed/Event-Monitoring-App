@@ -1,42 +1,67 @@
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query"
-import { RecentPost } from "./components/post"
-import { client } from "./lib/client"
+import { Heading } from "./components/heading"
+import { MaxWidthWrapper } from "./components/max-width-wrapper"
+import { Check } from "lucide-react"
+import { ShinyButton } from "./components/shiny-button"
 
-export default async function Home() {
-  const res = await client.post.recent.$get()
-  const recentPost = await res.json()
+const offers = [
+  "Real-time notifications for SaaS events on Your Discord",
+  "Track Sales, new Users, or any other events",
+  "Integration with multiple SaaS platforms",
+  "User-friendly setup and configuration",
+]
 
-  /**
-   * This is the intended way to prefetch data on the server to have it immediately available in the client.
-   * But: you could also just pass the post as a prop instead of using the `HydrationBoundary`
-   */
-  const queryClient = new QueryClient()
-
-  await queryClient.prefetchQuery({
-    queryFn: () => recentPost,
-    queryKey: ["get-recent-post"],
-  })
-
+const Page = () => {
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-medium font-heading tracking-tight sm:text-[5rem]">
-            <span className="text-brand-700">j</span>stack
-          </h1>
+    <>
+      <section className="relative py-24 sm:py-32 bg-brand-25">
+        <MaxWidthWrapper className="text-center">
+          <div className="relative mx-auto text-center flex flex-col items-center gap-10">
+            <div>
+              <Heading>
+                <span>Real-Time SaaS Insights,</span>
+                <br />
+                <span className="relative bg-gradient-to-r from-brand-700 to-brand-800 text-transparent bg-clip-text">
+                  Delivered to Your Discord
+                </span>
+              </Heading>
+            </div>
 
-          <p className="text-center max-w-prose text-balance">
-            The modern way to confidently ship high-performance, low-cost
-            Next.js apps. End-to-end typesafe with an incredible DX.
-          </p>
+            <p className="text-base/7 max-w-prose text-gray-600 text-center text-pretty">
+              StickTracker is the easiest way to get real-time updates on your SaaS
+              products directly in your Discord server. Stay informed with
+              instant notifications on{" "}
+              <span className="font-semibold text-gray-700">
+                sales, status changes, incidents, and other events
+              </span>{" "}
+              from all your favorite services.
+            </p>
 
-          <RecentPost />
-        </div>
-      </main>
-    </HydrationBoundary>
+            <ul className="space-y-2 text-gray-600 text-left flex flex-col items-start">
+              {offers.map((offer, index) => (
+                <li key={index} className="flex gap-1.5 items-center text-left">
+                  <Check className="size-5 shrink-0 text-brand-700" />
+                  {offer}
+                </li>
+              ))}
+            </ul>
+
+            {/* Shiny Button  */}
+            <div className="w-full max-w-80">
+              <ShinyButton href="/sign-up" className="relative z-10 h-12 w-full text-base shadow-lg transition-shadow duration-300 hover:shadow-xl">
+                Start Getting Your Updates Now
+              </ShinyButton>
+            </div>
+          </div>
+        </MaxWidthWrapper>
+      </section>
+
+      <section></section>
+
+      <section></section>
+
+      <section></section>
+    </>
   )
 }
+
+export default Page
